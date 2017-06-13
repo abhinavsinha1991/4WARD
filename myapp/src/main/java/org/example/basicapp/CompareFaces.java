@@ -28,7 +28,7 @@ public class CompareFaces {
     public static void main(String[] args) throws Exception{
         Float similarityThreshold = 98F;
         String sourceImage = "/home/abhinav/Pictures/pic.png";
-        String targetImage = "/home/abhinav/Pictures/pic3.png";
+        String targetImage = "/home/abhinav/Pictures/pic2.png";
         ByteBuffer sourceImageBytes=null;
         ByteBuffer targetImageBytes=null;
 

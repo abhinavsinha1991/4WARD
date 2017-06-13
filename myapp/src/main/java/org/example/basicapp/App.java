@@ -21,7 +21,7 @@ import com.amazonaws.util.IOUtils;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        String photo="/home/abhinav/Pictures/pic.png";
+        String photo="/home/abhinav/Pictures/muppet.png";
 
         AWSCredentials credentials;
         try {
@@ -46,8 +46,8 @@ public class App {
         DetectLabelsRequest request = new DetectLabelsRequest()
                 .withImage(new Image()
                         .withBytes(imageBytes))
-                .withMaxLabels(10)
-                .withMinConfidence(77F);
+                .withMaxLabels(20)
+                .withMinConfidence(50F);
 
         try {
 
