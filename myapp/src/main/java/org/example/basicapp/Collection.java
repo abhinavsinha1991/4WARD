@@ -41,7 +41,7 @@ public class Collection {
                 .build();
 
         // 1. CreateCollection 1
-        String collectionId = "faceapp_test";
+        String collectionId = "abhinav1";
         System.out.println("Creating collection: " +
                 collectionId);
         CreateCollectionResult createCollectionResult = callCreateCollection(

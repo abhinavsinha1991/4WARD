@@ -100,4 +100,6 @@ public class CompareFaces {
         System.out.println("Source image rotation: " + compareFacesResult.getSourceImageOrientationCorrection());
         System.out.println("target image rotation: " + compareFacesResult.getTargetImageOrientationCorrection());
     }
+
+
 }

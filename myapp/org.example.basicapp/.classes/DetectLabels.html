@@ -1,0 +1,152 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: DetectLabels</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.example.basicapp</a> ]
+</div>
+
+<h1>Coverage Summary for Class: DetectLabels (org.example.basicapp)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DetectLabels</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.5%
+  </span>
+  <span class="absValue">
+    (22/ 27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.example.basicapp;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;/**
+<i>4</i>&nbsp; * Created by abhinav on 10/6/17.
+<i>5</i>&nbsp; */
+<i>6</i>&nbsp;import com.amazonaws.services.rekognition.AmazonRekognition;
+<i>7</i>&nbsp;import com.amazonaws.services.rekognition.AmazonRekognitionClientBuilder;
+<i>8</i>&nbsp;import com.amazonaws.AmazonClientException;
+<i>9</i>&nbsp;import com.amazonaws.auth.AWSCredentials;
+<i>10</i>&nbsp;import com.amazonaws.auth.AWSStaticCredentialsProvider;
+<i>11</i>&nbsp;import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+<i>12</i>&nbsp;import com.amazonaws.regions.Regions;
+<i>13</i>&nbsp;import com.amazonaws.services.rekognition.model.AmazonRekognitionException;
+<i>14</i>&nbsp;import com.amazonaws.services.rekognition.model.DetectLabelsRequest;
+<i>15</i>&nbsp;import com.amazonaws.services.rekognition.model.DetectLabelsResult;
+<i>16</i>&nbsp;import com.amazonaws.services.rekognition.model.Image;
+<i>17</i>&nbsp;import com.amazonaws.services.rekognition.model.Label;
+<i>18</i>&nbsp;import com.amazonaws.util.IOUtils;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;import java.io.File;
+<i>21</i>&nbsp;import java.io.FileInputStream;
+<i>22</i>&nbsp;import java.io.InputStream;
+<i>23</i>&nbsp;import java.nio.ByteBuffer;
+<i>24</i>&nbsp;import java.util.List;
+<i>25</i>&nbsp;
+<b class="nc"><i>26</i>&nbsp;public class DetectLabels {</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    public static void main(String[] args) throws Exception {
+<i>29</i>&nbsp;
+<b class="fc"><i>30</i>&nbsp;        String photo = &quot;/home/abhinav/Pictures/muppet.png&quot;;</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;        AWSCredentials credentials;
+<i>33</i>&nbsp;        try {
+<b class="fc"><i>34</i>&nbsp;            credentials = new ProfileCredentialsProvider().getCredentials();</b>
+<b class="nc"><i>35</i>&nbsp;        } catch(Exception e) {</b>
+<b class="nc"><i>36</i>&nbsp;            throw new AmazonClientException(&quot;Cannot load the credentials from the credential profiles file. &quot;</b>
+<i>37</i>&nbsp;                    + &quot;Please make sure that your credentials file is at the correct &quot;
+<i>38</i>&nbsp;                    + &quot;location (/Users/userid/.aws/credentials), and is in a valid format.&quot;, e);
+<b class="fc"><i>39</i>&nbsp;        }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;        ByteBuffer imageBytes;
+<b class="fc"><i>42</i>&nbsp;        try (InputStream inputStream = new FileInputStream(new File(photo))) {</b>
+<b class="fc"><i>43</i>&nbsp;            imageBytes = ByteBuffer.wrap(IOUtils.toByteArray(inputStream));</b>
+<b class="fc"><i>44</i>&nbsp;        }</b>
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;        AmazonRekognition rekognitionClient = AmazonRekognitionClientBuilder
+<b class="fc"><i>47</i>&nbsp;                .standard()</b>
+<b class="fc"><i>48</i>&nbsp;                .withRegion(Regions.US_WEST_2)</b>
+<b class="fc"><i>49</i>&nbsp;                .withCredentials(new AWSStaticCredentialsProvider(credentials))</b>
+<b class="fc"><i>50</i>&nbsp;                .build();</b>
+<i>51</i>&nbsp;
+<b class="fc"><i>52</i>&nbsp;        DetectLabelsRequest request = new DetectLabelsRequest()</b>
+<b class="fc"><i>53</i>&nbsp;                .withImage(new Image().withBytes(imageBytes))</b>
+<b class="fc"><i>54</i>&nbsp;                .withMaxLabels(10)</b>
+<b class="fc"><i>55</i>&nbsp;                .withMinConfidence(77F);</b>
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;        try {
+<b class="fc"><i>58</i>&nbsp;            DetectLabelsResult result = rekognitionClient.detectLabels(request);</b>
+<b class="fc"><i>59</i>&nbsp;            List &lt;Label&gt; labels = result.getLabels();</b>
+<i>60</i>&nbsp;
+<b class="fc"><i>61</i>&nbsp;            System.out.println(&quot;Detected labels for &quot; + photo);</b>
+<b class="fc"><i>62</i>&nbsp;            for (Label label: labels) {</b>
+<b class="fc"><i>63</i>&nbsp;                System.out.println(label.getName() + &quot;: &quot; + label.getConfidence().toString());</b>
+<b class="fc"><i>64</i>&nbsp;            }</b>
+<b class="nc"><i>65</i>&nbsp;        } catch(AmazonRekognitionException e) {</b>
+<b class="nc"><i>66</i>&nbsp;            e.printStackTrace();</b>
+<b class="fc"><i>67</i>&nbsp;        }</b>
+<b class="fc"><i>68</i>&nbsp;    }</b>
+<i>69</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2017-07-02 15:44</div>
+</div>
+</body>
+</html>
